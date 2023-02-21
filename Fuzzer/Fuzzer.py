@@ -13,7 +13,7 @@ def Run(dut, toplevel,
         num_iter=1, template='Template', in_file=None,
         out='output', record=False, cov_log=None,
         multicore=0, manager=None, proc_num=0, start_time=0, start_iter=0, start_cov=0,
-        prob_intr=0, no_guide=False, debug=False):
+        prob_intr=0, no_guide=False, debug=False, value=None):
 
     assert toplevel in ['RocketTile', 'BoomTile' ], \
         '{} is not toplevel'.format(toplevel)
@@ -58,6 +58,12 @@ def Run(dut, toplevel,
                 print('{:<50}{:04b}'.format(inst, INT))
 
         (isa_input, rtl_input, symbols) = preprocessor.process(sim_input, data, assert_intr)
+       
+        
+        print(value)
+
+        if value != 0 :
+            rtlHost.ext_regstate(out, it)
 
         if isa_input and rtl_input:
             ret = run_isa_test(isaHost, isa_input, stop, out, proc_num)

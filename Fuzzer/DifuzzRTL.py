@@ -51,6 +51,7 @@ parser.add_option('debug', 0, 'Debugging?')
 parser.add_option('minimize', 0, 'Minimizing?')
 parser.add_option('prob_intr', 0, 'Probability of asserting interrupt')
 parser.add_option('no_guide', 0, 'Only random testing?')
+parser.add_option('value', 0, 's')
 
 parser.print_help()
 parser.parse_option()
@@ -60,14 +61,14 @@ record = parser.arg_map['record'][0]
 multicore = min(parser.arg_map['multicore'][0], 40)
 minimize = parser.arg_map['minimize'][0]
 parser.arg_map.pop('minimize', None)
-
 toplevel = parser.arg_map['toplevel'][0]
 template = parser.arg_map['template'][0]
 debug = parser.arg_map['debug'][0]
+VALUE = parser.arg_map['value'][0]
 
-
-if not os.path.isdir(out):
-    os.makedirs(out)
+if not VALUE == 0:
+    if not os.path.isdir(out + '/mapping'):
+                os.makedirs(out + '/mapping')
 
 if not os.path.isdir(out + '/mismatch'):
     os.makedirs(out + '/mismatch')
@@ -101,7 +102,6 @@ if not multicore:
         factory.add_option('template', [template])
         factory.add_option('out', [out])
         factory.add_option('debug', [debug])
-
     else:
         factory = TestFactory(Run)
         parser.register_option(factory)

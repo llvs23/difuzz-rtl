@@ -107,6 +107,78 @@ class rvRTLhost():
         cov_mask = (1 << len(self.dut.io_covSum)) - 1
         return self.dut.io_covSum.value & cov_mask
 
+    def ext_regstate(self, out, num_iter):
+        self.ext_FPU_regstate(out, num_iter)
+        self.ext_PTW_regstate(out, num_iter)
+        self.ext_DCache_regstate(out, num_iter)
+        self.ext_Frontend_regstate(out, num_iter)
+        self.ext_tlMasterXbar_regstate(out, num_iter)
+        self.ext_Rocket_regstate(out, num_iter)
+
+    def ext_FPU_regstate(self, out, num_iter):
+        try:
+               mapfile = out + '/mapping/FPU_regstate.txt'
+               fd = open(mapfile, 'a')
+               fd.write('num_iter : {:<5}\t FPU_regstate : {:<10}\t FPU_covSum : {:<10}\n'.format(str(num_iter),str(self.dut.FPU_regstate), str(self.dut.FPU_covSum)))
+               fd.close()
+        except:
+               print('ERROR_ext_FPU')
+               fd.close()
+
+    def ext_PTW_regstate(self, out, num_iter):
+        try:
+               mapfile = out + '/mapping/PTW_regstate.txt'
+               fd = open(mapfile, 'a')
+               fd.write('num_iter : {:<5}\t PTW_regstate : {:<10}\t covSum : {:<10}\n'.format(str(num_iter),str(self.dut.PTW_regstate), str(self.dut.PTW_covSum)))
+               fd.close()
+        except:
+               print('ERROR_ext_PTW')
+               fd.close()
+
+    def ext_DCache_regstate(self, out, num_iter):
+        try:
+               mapfile = out + '/mapping/DCache_regstate.txt'
+               fd = open(mapfile, 'a')
+               fd.write('num_iter : {:<5}\t DCache_regstate : {:<10}\t covSum : {:<10}\n'.format(str(num_iter),str(self.dut.DCache_regstate), str(self.dut.DCache_covSum)))
+               fd.close()
+        except:
+               print('ERROR_ext_DCache')
+               fd.close()
+
+
+    def ext_Frontend_regstate(self,out, num_iter):
+
+        try:
+                mapfile = out + '/mapping/Frontend_regstate.txt'
+                fd = open(mapfile,'a')
+                fd.write('num_iter : {:<5}\t Fronetend_regstate : {:<10}\t covSum : {:<10}\t covmap : {:<10}\n'.format(str(num_iter),str(self.dut.Frontend_regstate), str(self.dut.Frontend_covSum),str(self.dut.Frontend_covmap)))
+                fd.close()
+        except:
+                print('ERROR_ext_Frontend')
+                fd.close()
+
+    def ext_tlMasterXbar_regstate(self, out, num_iter):
+        try:
+                mapfile = out + '/mapping/tlMasterXbar_regstate.txt'
+                fd = open(mapfile, 'a')
+                fd.write('num_iter : {:<5}\t tlxMasterXbar_regstate : {:<10}\t tlxMasterXbar_covSum : {:<10}\t tlxMasterXbar covmap : {:<10}\n'.format(str(num_iter),str(self.dut.tlXbar_state), str(self.dut.tlXbar_covSum), str(self.dut.tlXbar_covmap)))
+                fd.close()
+        except:
+                print('ERROR_ext_tlxMasterXbar')
+                fd.close()
+    
+    def ext_Rocket_regstate(self, out, num_iter):
+        try:
+            mapfile = out + '/mapping/Rocket_regstate.txt'
+            fd = open(mapfile, 'a')
+            fd.write('num_iter : {:<5}\t Rocket_regstate : {:<10}\t covSum : {:<10}\n'.format(str(num_iter),str(self.dut.Rocket_regstate), str(self.dut.Rocket_covSum)))
+            fd.close()
+        except :
+            print('ERROR_ext_Rocket')
+            fd.close()
+
+
+
     @coroutine
     def run_test(self, rtl_input: rtlInput, assert_intr: bool):
 

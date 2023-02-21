@@ -63,7 +63,7 @@ RUN         export PATH=/opt/riscv/bin:$PATH
 WORKDIR     /home/host
 RUN         sudo apt install -y device-tree-compiler
 RUN         pip3 install psutil sysv_ipc
-RUN         git clone https://github.com/compsec-snu/difuzz-rtl.git
+RUN         git clone https://github.com/llvs23/difuzz-rtl.git
 RUN         chown -R host /home/host/difuzz-rtl
 
 ENV         PATH="/opt/riscv/bin:${PATH}"

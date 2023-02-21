@@ -77,7 +77,21 @@ module RocketTile(
   input         frontend_halt,
   input         hartIdNode_halt,
   input         intsink_halt,
-  input         intsink_2_halt
+  input         intsink_2_halt,
+  output [19:0] FPU_regstate,		//Jaewon_FPU_regstate
+    output [29:0] FPU_covSum,		//Jaewon_FPU_covSum
+    output [19:0] PTW_regstate,			//Jaewon_PTW_regstate
+    output [29:0] PTW_covSum,			//Jaewon_PTW_covSum
+    output [19:0] DCache_regstate,		//Jaewon_DCache_regstate
+    output [29:0] DCache_covSum,		//Jaewon_DCache_covSum
+    output [5:0]	 Frontend_regstate,	//Jaewon_Frontend_regstate
+    output [29:0] Frontend_covSum,		//Jaewon_Frontend_covSum
+    output [63:0] Frontend_covmap,		//Jaewon_Frontend_covman
+    output [2:0]  tlXbar_state,		//Jaewon_tlMasterXbar_state
+    output [29:0] tlXbar_covSum,	//Jaewon_tlMasterXbar_covSum
+    output [7:0]  tlXbar_covmap,	//Jaewon_tlMasterXbal_covmap
+    output [19:0] Rocket_regstate,			//Jaewon_Rocket_regstate
+    output [29:0] Rocket_covSum				//Jaewon_Rocket_covSum
 );
 
   reg debug_print;
@@ -1574,7 +1588,10 @@ module RocketTile(
     .metaAssert(tlMasterXbar_metaAssert),
     .metaReset(tlMasterXbar_metaReset),
     .TLMonitor_halt(tlMasterXbar_TLMonitor_halt),
-    .TLMonitor_1_halt(tlMasterXbar_TLMonitor_1_halt)
+    .TLMonitor_1_halt(tlMasterXbar_TLMonitor_1_halt),
+    .Checking_tlXbar_state(tlXbar_state),		   //Jaewon_tlMasterXbar
+    .Checking_tlXbar_covSum(tlXbar_covSum),			//Jaewon_tlMasterXbar
+    .Checking_tlXbar_covmap(tlXbar_covmap)			//Jaewon_tlMasterXbar
   );
   IntXbar_1 intXbar ( // @[BaseTile.scala 192:37]
     .auto_int_in_3_0(intXbar_auto_int_in_3_0),
@@ -1751,9 +1768,14 @@ module RocketTile(
     .MaxPeriodFibonacciLFSR_halt(dcache_MaxPeriodFibonacciLFSR_halt),
     .pma_checker_halt(dcache_pma_checker_halt),
     .tlb_halt(dcache_tlb_halt),
-    .data_halt(dcache_data_halt)
+    .data_halt(dcache_data_halt),
+    .Checking_DCache_regstate(DCache_regstate),		//Jaewon_DCache_regstate
+    .Checking_DCache_covSum(DCache_covSum)			//Jaewon_DCache_regstate
   );
   Frontend frontend ( // @[Frontend.scala 352:28]
+	.Checking_Frontend_regstate(Frontend_regstate), 	//Jaewon_regstate
+	.Checking_Frontend_covSum(Frontend_covSum), 	//Jaewon_regstate
+	.Checking_Frontend_covmap(Frontend_covmap), 	//Jaewon_regstate
     .gated_clock(frontend_gated_clock),
     .reset(frontend_reset),
     .auto_icache_master_out_a_ready(frontend_auto_icache_master_out_a_ready),
@@ -2042,7 +2064,9 @@ module RocketTile(
     .fpmu_halt(fpuOpt_fpmu_halt),
     .dfma_halt(fpuOpt_dfma_halt),
     .fpiu_halt(fpuOpt_fpiu_halt),
-    .sfma_halt(fpuOpt_sfma_halt)
+    .sfma_halt(fpuOpt_sfma_halt),
+    .Checking_FPU_regstate(FPU_regstate),		//Jaewon_FPU_regstate
+    .Checking_FPU_covSum(FPU_covSum)		   //Jaewon_FPU_regstate
   );
   HellaCacheArbiter dcacheArb ( // @[HellaCache.scala 264:25]
     .clock(dcacheArb_clock),
@@ -2346,7 +2370,9 @@ module RocketTile(
     .io_dpath_customCSRs_csrs_0_value(ptw_io_dpath_customCSRs_csrs_0_value),
     .io_covSum(ptw_io_covSum),
     .metaAssert(ptw_metaAssert),
-    .metaReset(ptw_metaReset)
+    .metaReset(ptw_metaReset),
+    .Checking_PTW_covSum(PTW_covSum),				//Jaewon_PTW_covSum
+    .Checking_PTW_regstate(PTW_regstate)			//Jaewon_PTW_regstate
   );
   Rocket core ( // @[RocketTile.scala 135:20]
     .clock(core_clock),
@@ -2512,7 +2538,9 @@ module RocketTile(
     .metaReset(core_metaReset),
     .csr_halt(core_csr_halt),
     .div_halt(core_div_halt),
-    .ibuf_halt(core_ibuf_halt)
+    .ibuf_halt(core_ibuf_halt),
+    .Checking_Rocket_regstate(Rocket_regstate),		//Jaewon_Rocket_regstate
+    .Checking_Rocket_covSum(Rocket_covSum)		//Jaewon_Rocket_regstat
   );
   assign auto_tl_master_xing_out_a_valid = buffer_auto_out_a_valid; // @[LazyModule.scala 305:12]
   assign auto_tl_master_xing_out_a_bits_opcode = buffer_auto_out_a_bits_opcode; // @[LazyModule.scala 305:12]
@@ -3218,8 +3246,15 @@ module TLXbar_7(
   output        metaAssert,
   input         metaReset,
   input         TLMonitor_halt,
-  input         TLMonitor_1_halt
-);
+  input         TLMonitor_1_halt,
+  output [2:0] Checking_tlXbar_state,		//Jaewon_tlMasterXbar
+  output [29:0] Checking_tlXbar_covSum,		//Jaewon_tlMasterXbar
+  output [7:0] Checking_tlXbar_covmap		//Jaewon_tlMasterXbar
+	    
+  );
+  assign Checking_tlXbar_state = TLXbar_7_state;		//Jaewon_tlMasterXbar
+  assign Checking_tlXbar_covSum = TLXbar_7_covSum;		//Jaewon_tlMasterXbar
+  assign Checking_tlXbar_covmap = {TLXbar_7_cov[0],TLXbar_7_cov[1],TLXbar_7_cov[2],TLXbar_7_cov[3],TLXbar_7_cov[4],TLXbar_7_cov[5],TLXbar_7_cov[6],TLXbar_7_cov[7]};		//Jaewon_tlMasterXbar
   wire  TLMonitor_clock; // @[Nodes.scala 25:25]
   wire  TLMonitor_reset; // @[Nodes.scala 25:25]
   wire  TLMonitor_io_in_a_ready; // @[Nodes.scala 25:25]
@@ -4011,8 +4046,12 @@ module DCache(
   input         MaxPeriodFibonacciLFSR_halt,
   input         pma_checker_halt,
   input         tlb_halt,
-  input         data_halt
-);
+  input         data_halt,
+  output [19:0] Checking_DCache_regstate,	//Jaewon_DCache_regstate
+  output [29:0] Checking_DCache_covSum	//Jaewon_DCache_regstate
+  );
+  assign Checking_DCache_regstate = DCache_state; 	//Jaewon_DCache_regstate
+  assign Checking_DCache_covSum = DCache_covSum; 	//Jaewon_DCache_regstate
   wire  tlb_clock; // @[DCache.scala 115:19]
   wire  tlb_reset; // @[DCache.scala 115:19]
   wire  tlb_io_req_ready; // @[DCache.scala 115:19]
@@ -8959,8 +8998,14 @@ module Frontend(
   input         icache_halt,
   input         fq_halt,
   input         tlb_halt,
-  input         btb_halt
-);
+  input         btb_halt,
+output [5:0]	 Checking_Frontend_regstate,	//Jaewon_regstate
+  output [29:0]	 Checking_Frontend_covSum,	//Jaewon_regstate
+    output [63:0]	 Checking_Frontend_covmap	//Jaewon_regstate
+    );
+      assign Checking_Frontend_regstate = Frontend_state;		//Jaewon_regstate
+        assign Checking_Frontend_covSum = Frontend_covSum;		//Jaewon_regstate
+	  assign Checking_Frontend_covmap = {Frontend_cov[0],Frontend_cov[1],Frontend_cov[2],Frontend_cov[3],Frontend_cov[4],Frontend_cov[5],Frontend_cov[6],Frontend_cov[7],Frontend_cov[8],Frontend_cov[9],  Frontend_cov[10],Frontend_cov[11],Frontend_cov[12],Frontend_cov[13],Frontend_cov[14],  Frontend_cov[15],Frontend_cov[16],Frontend_cov[17],Frontend_cov[18],Frontend_cov[19],Frontend_cov[20],Frontend_cov[21],Frontend_cov[22],Frontend_cov[23],Frontend_cov[24],Frontend_cov[25],Frontend_cov[26],Frontend_cov[27],Frontend_cov[28],Frontend_cov[29],Frontend_cov[30],Frontend_cov[31],Frontend_cov[32],Frontend_cov[33],Frontend_cov[34],   Frontend_cov[35],Frontend_cov[36],Frontend_cov[37],Frontend_cov[38],Frontend_cov[39],Frontend_cov[40],	Frontend_cov[41],Frontend_cov[42],Frontend_cov[43],Frontend_cov[44],   Frontend_cov[45],Frontend_cov[46],Frontend_cov[47],Frontend_cov[48],Frontend_cov[49],Frontend_cov[50],	Frontend_cov[51],Frontend_cov[52],Frontend_cov[53],Frontend_cov[54],  Frontend_cov[55],Frontend_cov[56],Frontend_cov[57],Frontend_cov[58],Frontend_cov[59],Frontend_cov[60],Frontend_cov[61],Frontend_cov[62],Frontend_cov[63]};		//Jaewon_regstate
   wire  icache_clock; // @[Frontend.scala 64:26]
   wire  icache_reset; // @[Frontend.scala 64:26]
   wire  icache_auto_master_out_a_ready; // @[Frontend.scala 64:26]
@@ -11257,8 +11302,12 @@ module FPU(
   input         fpmu_halt,
   input         dfma_halt,
   input         fpiu_halt,
-  input         sfma_halt
+  input         sfma_halt,
+  output [19:0] Checking_FPU_regstate,	//Jaewon_FPU_regstate
+  output [29:0] Checking_FPU_covSum		//Jaewon_FPU_regstate
 );
+  assign Checking_FPU_regstate = FPU_state; 	//Jaewon_FPU_regstate
+  assign Checking_FPU_covSum = FPU_covSum; 	//Jaewon_FPU_covSum
   wire [31:0] fp_decoder_io_inst; // @[FPU.scala 694:26]
   wire  fp_decoder_io_sigs_wen; // @[FPU.scala 694:26]
   wire  fp_decoder_io_sigs_ren1; // @[FPU.scala 694:26]
@@ -13656,8 +13705,12 @@ module PTW(
   input  [63:0] io_dpath_customCSRs_csrs_0_value,
   output [29:0] io_covSum,
   output        metaAssert,
-  input         metaReset
-);
+  input         metaReset,
+  output [19:0] Checking_PTW_regstate,			//Jaewon_PTW_regstate
+  output [29:0] Checking_PTW_covSum				//Jaewon_PTW_regstate
+  );
+  assign Checking_PTW_regstate = PTW_state; 	//Jaewon_PTW_regstate
+  assign Checking_PTW_covSum = PTW_covSum; 		//Jaewon_PTW_regstate
   wire  arb_io_in_0_ready; // @[PTW.scala 105:19]
   wire  arb_io_in_0_valid; // @[PTW.scala 105:19]
   wire [26:0] arb_io_in_0_bits_bits_addr; // @[PTW.scala 105:19]
@@ -15651,8 +15704,12 @@ module Rocket(
   input         metaReset,
   input         csr_halt,
   input         div_halt,
-  input         ibuf_halt
+  input         ibuf_halt,
+  output [19:0] Checking_Rocket_regstate,	//Jaewon_Rocket_regstate
+  output [29:0] Checking_Rocket_covSum	//Jaewon_Rocket_regstate
 );
+  assign Checking_Rocket_regstate = Rocket_state; 	//Jaewon_Rocket_regstate
+  assign Checking_Rocket_covSum = Rocket_covSum; 	//Jaewon_Rocket_regstate
   wire  ibuf_clock; // @[RocketCore.scala 248:20]
   wire  ibuf_reset; // @[RocketCore.scala 248:20]
   wire  ibuf_io_imem_ready; // @[RocketCore.scala 248:20]
