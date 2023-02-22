@@ -28,16 +28,23 @@ cd Fuzzer
 ### Singlecore Fuzzing
 >
 > A command was added to simply check the paper's mapping operation.
+> 
 > ![Finding Hash Value_2](https://user-images.githubusercontent.com/121912362/220507933-54067bae-4d96-43f6-8daa-b3698b06a3f4.jpg)
 > 
 > ![Finding Hash Value_1](https://user-images.githubusercontent.com/121912362/220508043-1c8bd5fe-8dbf-4600-ac6c-47bcd93fb5c0.jpg)
+>
+> ```
 > cd Fuzzer
 > make SIM_BUILD=<build_dir> VFILE=<target> TOPLEVEL=<topmodule> NUM_ITER=<num_iter> OUT=<outdir> VALUE=<view mapping>
 > ```
 > **VALUE**:     Set 1 to view coverage mapping of the number of iteration
 >                (The value is currently only available on RocketTile_state)
 >  (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state TOPLEVEL=RocketTile NUM_ITER=10 OUT=out10 VALUE=1)
-> 
+>
+> If you set the value, you can see the mapping process of the module through the mapping file. 
+> Such like below figure.
+> ![image](https://user-images.githubusercontent.com/121912362/220509706-b99351c1-ab46-4ed5-900c-eeb83d92bb19.png)
+
 
 
 #### Multicore Fuzzing
