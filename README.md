@@ -35,7 +35,7 @@ cd Fuzzer
 > ```
 > **VALUE**:     Set 1 to view coverage mapping of the number of iteration
 >                (The value is currently only available on RocketTile_state)
->                (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state TOPLEVEL=RocketTile NUM_ITER=10 OUT=out10 VALUE=1)
+>  (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state TOPLEVEL=RocketTile NUM_ITER=10 OUT=out10 VALUE=1)
 > 
 
 
