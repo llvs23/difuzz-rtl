@@ -3,8 +3,13 @@ Easy to experiment DifuzzRTL
 
 # Introduction
 
-We modified the code so that you can easily perform multicore Fuzzing and check map-coverage about some of modules.
-Other additional settings are needed for accurate operation, but we made it simple to run.
+I modified the code so that you can easily perform multicore Fuzzing and check map-coverage about some of modules.
+
+
+
+Other additional settings are needed for accurate operation such as Muticore fuzzing, but I made it simple to run.
+
+
 
 ## Setup
 
@@ -39,9 +44,15 @@ cd Fuzzer
 > ```
 > **VALUE**:     Set 1 to view coverage mapping of the number of iteration
 >                (The value is currently only available on RocketTile_state)
+
+
+
 >  (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state TOPLEVEL=RocketTile NUM_ITER=10 OUT=out10 VALUE=1)
 >
 > If you set the value, you can see the mapping process of the module through the mapping file. 
+
+
+
 > Such like below figure.
 > ![image](https://user-images.githubusercontent.com/121912362/220509706-b99351c1-ab46-4ed5-900c-eeb83d92bb19.png)
 
