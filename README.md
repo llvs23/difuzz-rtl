@@ -66,7 +66,7 @@ cd Fuzzer
 > cd Fuzzer
 > make SIM_BUILD=<build_dir> VFILE=<target> TOPLEVEL=<topmodule> NUM_ITER=<num_iter> OUT=<outdir> MULTICORE=<num_core>
 > ```
-> (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state_Muticore TOPLEVEL=RocketTile NUM_ITER=5000 OUT=out10 MUTICORE=8)
+> (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state_Muticore TOPLEVEL=RocketTile NUM_ITER=5000 OUT=M8OUT5000 MUTICORE=8)
 
 
 
