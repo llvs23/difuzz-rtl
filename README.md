@@ -1,9 +1,10 @@
-# Easy to experiment DifuzzRTL
+Easy to experiment DifuzzRTL
+============================
 
 # Introduction
 
 We modified the code so that you can easily perform multicore Fuzzing and check map-coverage about some of modules.
-Other additional settings are needed for accurate operation, but we made it simple to operate.
+Other additional settings are needed for accurate operation, but we made it simple to run.
 
 ## Setup
 
@@ -13,7 +14,6 @@ First of all, you can enter the Docker Container using the Docker File in difuzz
 ```
 docker build -t difuzzrtl .
 docker run -it --name difuzzrtl difuzzrtl:latest
-
 ```
 
 Before fuzzing, you need to setup.
@@ -21,56 +21,35 @@ Before fuzzing, you need to setup.
 ```
 cd Fuzzer
 . ./setup.sh
-
 ```
 
-### Instructions
+## Instructions
 
-#### Singlecore Fuzzing
-
-```
-cd Fuzzer
-make SIM_BUILD=<build_dir> VFILE=<target> TOPLEVEL=<topmodule> NUM_ITER=<num_iter> OUT=<outdir> VALUE=<view mapping>
-
-```
-
-
-**SIM_BUILD**: Directory for RTL simulation binary build by cocotb  
-**VFILE**:     Target RTL design in DifuzzRTL/Benchmarks/Verilog/  
-           (e.g., RocketTile_state)  
-**TOPLEVEL**:  Top-level module  
-           (e.g., RocketTile)  
-**NUM_ITER**:  Number of fuzzing iterations to run  
-**OUT**:       Output directory  
-**RECORD**:    Set 1 to record coverage log  
-**DEBUG**:     Set 1 to print debug messages  
-**VALUE**:     Set 1 to view coverage mapping of the number of iteration
-               (The value is currently only available on RocketTile_state)
-               (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state TOPLEVEL=RocketTile NUM_ITER=10 OUT=out10 VALUE=1)
-
+### Singlecore Fuzzing
+>
+> A command was added to simply check the paper's mapping operation.
+> 
+> ```
+> cd Fuzzer
+> make SIM_BUILD=<build_dir> VFILE=<target> TOPLEVEL=<topmodule> NUM_ITER=<num_iter> OUT=<outdir> VALUE=<view mapping>
+> ```
+> **VALUE**:     Set 1 to view coverage mapping of the number of iteration
+>                (The value is currently only available on RocketTile_state)
+>                (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state TOPLEVEL=RocketTile NUM_ITER=10 OUT=out10 VALUE=1)
+> 
 
 
 #### Multicore Fuzzing
+> 
+> Multicore Fuzzing does not work for existing open source files. 
+> Therefore, I made some modifications to make it work.
+> 
+> ```
+> cd Fuzzer
+> make SIM_BUILD=<build_dir> VFILE=<target> TOPLEVEL=<topmodule> NUM_ITER=<num_iter> OUT=<outdir> MULTICORE=<num_core>
+> 
+> ```
 
-Multicore Fuzzing does not work for existing open source files. 
-Therefore, I made some modifications to make it work.
-
-```
-cd Fuzzer
-make SIM_BUILD=<build_dir> VFILE=<target> TOPLEVEL=<topmodule> NUM_ITER=<num_iter> OUT=<outdir> MULTICORE=<num_core>
-
-```
-
-**SIM_BUILD**: Directory for RTL simulation binary build by cocotb  
-**VFILE**:     Target RTL design in DifuzzRTL/Benchmarks/Verilog/  
-           (e.g., RocketTile_state_Multicore)  
-**TOPLEVEL**:  Top-level module  
-           (e.g., RocketTile)  
-**NUM_ITER**:  Number of fuzzing iterations to run  
-**OUT**:       Output directory  
-**MULTICORE**:     Set number of CORES to run
-**RECORD**:    Set 1 to record coverage log  
-**DEBUG**:     Set 1 to print debug messages  
 
 
 
