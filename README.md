@@ -1,5 +1,5 @@
-Easy to experiment DifuzzRTL
-============================
+Experience DifuzzRTL with multicore fuzzing and check coverage-mapping
+======================================================================
 
 # Introduction
 
@@ -46,7 +46,9 @@ cd Fuzzer
 >
 >  (e.g., make SIM_BUILD=sim_build_RocketTile VFILE=RocketTile_state TOPLEVEL=RocketTile NUM_ITER=10 OUT=out10 VALUE=1)
 >
-> If you set the value, you can see the mapping process of the module through the mapping file. 
+> If you set the value, you can see the mapping process of the module through the mapping file.
+>
+> (It shows coverage-mapping after iteraion! So, it doesn't give specific all of states)
 >
 > Such like below figure.
 > ![image](https://user-images.githubusercontent.com/121912362/220509706-b99351c1-ab46-4ed5-900c-eeb83d92bb19.png)
